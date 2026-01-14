@@ -13,5 +13,9 @@ export default function UploadReciept() {
     return redirect("/");
   }
 
-  return <div className="w-dvw h-dvh flex items-center justify-center">Logged in as {userContext.user}</div>;
+  return (
+    <div className="w-dvw h-dvh flex items-center justify-center">
+      Logged in as {userContext.user}
+    </div>
+  );
 }
