@@ -17,26 +17,29 @@ import { redirect } from "next/navigation";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
-import { findUserById } from "./server/actions";
+import { findUserById } from "@/app/server/actions";
 
-export default function Home() {
+export default function LoginPage() {
   const userContext = React.useContext(UserContext);
   const [id, setId] = React.useState("");
 
-  const handleLogin = React.useCallback(async (id: string) => {
-    const user = await findUserById(id);
+  const handleLogin = React.useCallback(
+    async (id: string) => {
+      const user = await findUserById(id);
 
-    if (!user) {
-      toast.error("Sai mã định danh, vui lòng thử lại!");
-      return;
-    }
+      if (!user) {
+        toast.error("Sai mã định danh, vui lòng thử lại!");
+        return;
+      }
 
-    toast.success(`Đăng nhập thành công! Xin chào ${user}`);
+      toast.success(`Đăng nhập thành công! Xin chào ${user}`);
 
-    userContext.setUser(user);
+      userContext.setUser(user);
 
-    redirect("/upload");
-  }, [userContext]);
+      redirect("/upload");
+    },
+    [userContext]
+  );
 
   return (
     <div className="w-dvw h-dvh flex items-center justify-center">
