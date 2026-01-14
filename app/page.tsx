@@ -9,11 +9,34 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { InfoIcon } from "lucide-react";
 
+import { UserContext } from "@/components/providers/user-provider";
+
+import { redirect } from "next/navigation";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { toast } from "sonner";
+
+import { findUserById } from "./server/actions";
+
 export default function Home() {
+  const userContext = React.useContext(UserContext);
   const [id, setId] = React.useState("");
+
+  const handleLogin = React.useCallback(async (id: string) => {
+    const user = await findUserById(id);
+
+    if (!user) {
+      toast.error("Sai mã định danh, vui lòng thử lại!");
+      return;
+    }
+
+    toast.success(`Đăng nhập thành công! Xin chào ${user}`);
+
+    userContext.setUser(user);
+
+    redirect("/upload");
+  }, [userContext]);
 
   return (
     <div className="w-dvw h-dvh flex items-center justify-center">
@@ -25,7 +48,12 @@ export default function Home() {
           </Alert>
         </div>
 
-        <InputOTP maxLength={8} pattern={REGEXP_ONLY_DIGITS} value={id} onChange={setId}>
+        <InputOTP
+          maxLength={8}
+          pattern={REGEXP_ONLY_DIGITS}
+          value={id}
+          onChange={setId}
+        >
           <InputOTPGroup>
             <InputOTPSlot index={0} />
             <InputOTPSlot index={1} />
@@ -44,7 +72,7 @@ export default function Home() {
           </InputOTPGroup>
         </InputOTP>
 
-        <Button>Đăng nhập</Button>
+        <Button onClick={() => handleLogin(id)}>Đăng nhập</Button>
       </div>
     </div>
   );
