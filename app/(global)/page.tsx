@@ -4,10 +4,10 @@ import * as React from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
+	InputOTP,
+	InputOTPGroup,
+	InputOTPSeparator,
+	InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { InfoIcon } from "lucide-react";
 
@@ -20,63 +20,63 @@ import { toast } from "sonner";
 import { findUserById } from "@/app/server/actions";
 
 export default function LoginPage() {
-  const userContext = React.useContext(UserContext);
-  const [id, setId] = React.useState("");
+	const userContext = React.useContext(UserContext);
+	const [id, setId] = React.useState("");
 
-  const handleLogin = React.useCallback(
-    async (id: string) => {
-      const user = await findUserById(id);
+	const handleLogin = React.useCallback(
+		async (id: string) => {
+			const user = await findUserById(id);
 
-      if (!user) {
-        toast.error("Sai mã định danh, vui lòng thử lại!");
-        return;
-      }
+			if (!user) {
+				toast.error("Sai mã định danh, vui lòng thử lại!");
+				return;
+			}
 
-      toast.success(`Đăng nhập thành công! Xin chào ${user}`);
+			toast.success(`Đăng nhập thành công! Xin chào ${user}`);
 
-      userContext.setUser(user);
+			userContext.setUser(user);
 
-      redirect("/upload");
-    },
-    [userContext]
-  );
+			redirect("/upload");
+		},
+		[userContext],
+	);
 
-  return (
-    <div className="w-dvw h-dvh flex items-center justify-center">
-      <div className="flex flex-col items-center gap-8">
-        <div>
-          <Alert>
-            <InfoIcon />
-            <AlertTitle>Đăng nhập bằng cách nhập mã định danh</AlertTitle>
-          </Alert>
-        </div>
+	return (
+		<div className="w-dvw h-dvh flex items-center justify-center">
+			<div className="flex flex-col items-center gap-8">
+				<div>
+					<Alert>
+						<InfoIcon />
+						<AlertTitle>Đăng nhập bằng cách nhập mã định danh</AlertTitle>
+					</Alert>
+				</div>
 
-        <InputOTP
-          maxLength={8}
-          pattern={REGEXP_ONLY_DIGITS}
-          value={id}
-          onChange={setId}
-        >
-          <InputOTPGroup>
-            <InputOTPSlot index={0} />
-            <InputOTPSlot index={1} />
-          </InputOTPGroup>
-          <InputOTPSeparator />
-          <InputOTPGroup>
-            <InputOTPSlot index={2} />
-            <InputOTPSlot index={3} />
-          </InputOTPGroup>
-          <InputOTPSeparator />
-          <InputOTPGroup>
-            <InputOTPSlot index={4} />
-            <InputOTPSlot index={5} />
-            <InputOTPSlot index={6} />
-            <InputOTPSlot index={7} />
-          </InputOTPGroup>
-        </InputOTP>
+				<InputOTP
+					maxLength={8}
+					pattern={REGEXP_ONLY_DIGITS}
+					value={id}
+					onChange={setId}
+				>
+					<InputOTPGroup>
+						<InputOTPSlot index={0} />
+						<InputOTPSlot index={1} />
+					</InputOTPGroup>
+					<InputOTPSeparator />
+					<InputOTPGroup>
+						<InputOTPSlot index={2} />
+						<InputOTPSlot index={3} />
+					</InputOTPGroup>
+					<InputOTPSeparator />
+					<InputOTPGroup>
+						<InputOTPSlot index={4} />
+						<InputOTPSlot index={5} />
+						<InputOTPSlot index={6} />
+						<InputOTPSlot index={7} />
+					</InputOTPGroup>
+				</InputOTP>
 
-        <Button onClick={() => handleLogin(id)}>Đăng nhập</Button>
-      </div>
-    </div>
-  );
+				<Button onClick={() => handleLogin(id)}>Đăng nhập</Button>
+			</div>
+		</div>
+	);
 }
