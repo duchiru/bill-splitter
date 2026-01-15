@@ -54,7 +54,7 @@ export default function UploadReciept() {
 					/>
 
 					<div className="flex gap-4">
-						<Button>
+						<Button disabled>
 							<CropIcon strokeWidth={2.5} />
 							Cắt ảnh
 						</Button>
