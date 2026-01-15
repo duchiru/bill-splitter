@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
 	InputOTP,
 	InputOTPGroup,
-	InputOTPSeparator,
 	InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { InfoIcon } from "lucide-react";
@@ -17,7 +16,7 @@ import { redirect } from "next/navigation";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
-import { findUserById } from "@/app/server/actions";
+import { findUserById } from "@/app/server/spreadsheet";
 
 export default function LoginPage() {
 	const userContext = React.useContext(UserContext);

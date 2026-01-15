@@ -10,21 +10,13 @@ const auth = new google.auth.JWT({
 
 const sheets = google.sheets({ version: "v4", auth });
 const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
+const LOGIN_DATA_AREA = process.env.LOGIN_DATA_AREA;
 
 export async function findUserById(id: string) {
-	if (!SPREADSHEET_ID) {
-		throw new Error("GOOGLE_SPREADSHEET_ID is not set");
-	}
-
-	const response = await sheets.spreadsheets.values.get({
+	const rows = await sheets.spreadsheets.values.get({
 		spreadsheetId: SPREADSHEET_ID,
-		range: "LOGIN_DATA!A:B",
-	});
-
-	const rows = response.data.values;
-	if (!rows || rows.length === 0) {
-		return null;
-	}
+		range: LOGIN_DATA_AREA,
+	}).then(res => res.data.values || []);
 
 	for (const row of rows) {
 		if (row[1] === id) {
